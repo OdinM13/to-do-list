@@ -1,0 +1,59 @@
+/* Josh W. Comeau's Reset + 2026 Modern Enhancements
+  Best for: Full Stack JS Projects (React, Next.js, etc.)
+*/
+
+@layer reset {
+  /* 1. Standard Josh: More intuitive box model */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* 2. Standard Josh: Remove default margins */
+  * {
+    margin: 0;
+  }
+
+  /* 3. Standard Josh: Allow percentage-based heights in the dashboard */
+  html, body {
+    height: 100%;
+  }
+
+  /* 4. 2026 Upgrade: Modern typography and smoothing */
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-wrap: pretty; /* Prevents single-word orphans */
+  }
+
+  /* 5. Standard Josh: Media defaults */
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* 6. Standard Josh: Form elements inheritance */
+  input, button, textarea, select {
+    font: inherit;
+  }
+
+  /* 7. Standard Josh: Avoid text overflow */
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* 8. 2026 Upgrade: Balance headlines automatically */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  /* 9. Standard Josh: Create a root stacking context (Crucial for React/Next.js) */
+  #root, #__next {
+    isolation: isolate;
+  }
+
+  /* 10. 2026 Feature: Enable smooth auto-height transitions */
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
