@@ -34,5 +34,9 @@ module.exports = {
     devServer: {
         static: './dist',
         watchFiles: ['./src/template.html'],
+        port: 3000,
+        client: {
+            webSocketURL: 'ws://localhost:3000/ws',
+        },
     },
 };
