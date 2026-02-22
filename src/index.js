@@ -1,4 +1,11 @@
+// put updateStorage function in utils file
+// add search function with .filter
+// add function to read localStorage when creating controller
+
 import { format } from "date-fns";
+import { storageAvailable } from "./utils.js";
+
+const SAVING_TO = "localStorage";
 
 class Controller {
     constructor () {
@@ -6,21 +13,90 @@ class Controller {
     }
 
     createProject (name) {
-        let project = new Project (name);
-        return this.projects.push(project);
+        const project = new Project (name);
+        this.projects.push(project);
+        this.updateStorage("Project", this.projects);
+        return project;
     }
 
-    createTodo (title) {
-        let todo = new Todo ({ title: title });
-        return home.todos.push(todo);
+    deleteProject (name) {
+        const index = this.projects.findIndex(e => e.name === name);
+        if (index > -1) {
+            this.projects.splice(index, 1);
+            this.updateStorage("Project", this.projects);
+        }
     }
 
+    createTodo (obj) {
+        const todo = new Todo (obj);
+        const index = this.projects.findIndex(e => e.name === obj.project);
+        if (index > -1) {
+            this.projects[index].addTodo(todo);
+            this.updateStorage("Project", this.projects);
+        }
+    }
+
+    deleteTodo (project, name) {
+        const index = this.projects.findIndex(e => e.name === project);
+        if (index > -1) {
+            this.projects[index].deleteTodo(name);
+            this.updateStorage("Project", this.projects);
+        }
+    }
+
+    removeTodo (project, name, newproject) {
+        const targetProject = newproject || "Home";
+        const index = this.projects.findIndex(e => e.name === project);
+        if (index > -1) {
+            const todo = this.projects[index].removeTodo(name);
+            todo.changeProperty("project", targetProject);
+            
+            const indexNewProject = this.projects.findIndex(e => e.name === targetProject);
+            if (indexNewProject > -1) {
+                this.projects[indexNewProject].addTodo(todo);
+            } else {
+                const newProject = this.createProject(targetProject);
+                newProject.addTodo(todo);
+            } 
+            this.updateStorage("Project", this.projects);
+        }
+    }
+
+    updateStorage (name, data) {
+        if (storageAvailable(SAVING_TO)) {
+            localStorage.setItem(name, JSON.stringify(data));
+        } else {
+            alert("Saving Data is not possible");
+        }
+    }
 }
 
 class Project {
     constructor (name) {
         this.name = name;
         this.todos = [];
+    }
+
+    changeName (name) {
+        this.name = name;
+    }
+
+    addTodo (todo) {
+        this.todos.push(todo);
+    }
+
+    deleteTodo (title) {
+        const index = this.todos.findIndex(e => e.title === title);
+        if (index > -1) {
+            this.todos.splice(index, 1);
+        }
+    }
+
+    removeTodo (title) {
+        const index = this.todos.findIndex(e => e.title === title);
+        if (index > -1) {
+            return this.todos.splice(index, 1)[0];
+        }
     }
 }
 
@@ -35,8 +111,8 @@ class Todo {
         this.complete = tdData.complete || false;
     }
 
-    set prio (priority) {
-        return this.priority = priority;
+    changeProperty (property, value) {
+        this[property] = value;
     }
 }
 
@@ -52,16 +128,8 @@ const testTodo = new Todo ({
 
 const appController = new Controller();
 
-const home = new Project("Home");
+const home = appController.createProject("Home");
 
 window.appController = appController;
 window.testTodo = testTodo;
 window.home = home;
-
-// console.log(testTodo.title);
-// console.log(testTodo.description);
-// console.log(testTodo.project);
-// console.log(testTodo.dueDate);
-// console.log(testTodo.priority);
-// console.log(testTodo.notes);
-// console.log(testTodo.complete);
