@@ -1,6 +1,5 @@
-// put updateStorage function in utils file
+// put Storage functions in utils file
 // add search function with .filter
-// add function to read localStorage when creating controller
 
 import { format } from "date-fns";
 import { storageAvailable } from "./utils.js";
@@ -9,7 +8,8 @@ const SAVING_TO = "localStorage";
 
 class Controller {
     constructor () {
-        this.projects = [];
+        this.projects = this.loadStorage("Project");
+        console.table(this.loadStorage("Project"));
     }
 
     createProject (name) {
@@ -69,6 +69,25 @@ class Controller {
             alert("Saving Data is not possible");
         }
     }
+
+    loadStorage(name) {
+        let project = [];
+        if (!localStorage.getItem(name)) {
+            return project; 
+        } else {
+            const parsedData = JSON.parse(localStorage.getItem(name)); 
+            return parsedData.map(element => {
+                const restoredProject = new Project(element.name);
+                element.todos.forEach(e => restoredProject.addTodo(new Todo(e)));
+                return restoredProject;
+            });
+        }
+    }
+
+    deleteStorage() {
+        localStorage.clear();
+        this.projects = [];
+    }
 }
 
 class Project {
@@ -116,20 +135,21 @@ class Todo {
     }
 }
 
-const testTodo = new Todo ({
-    title: "Test",
-    description: "This is a description",
-    project: "Project A",
-    dueDate: format(new Date(2026, 1, 21), "dd/MM/yyyy"),
-    priority: "high",
-    notes: "This and that",
-    complete: false
-});
+// const testTodo = new Todo ({
+//     title: "Test",
+//     description: "This is a description",
+//     project: "Project A",
+//     dueDate: format(new Date(2026, 1, 21), "dd/MM/yyyy"),
+//     priority: "high",
+//     notes: "This and that",
+//     complete: false
+// });
 
 const appController = new Controller();
 
-const home = appController.createProject("Home");
+if (appController.projects.length === 0) {
+    appController.createProject("Home");
+}
 
 window.appController = appController;
-window.testTodo = testTodo;
-window.home = home;
+// window.testTodo = testTodo;
