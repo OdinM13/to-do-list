@@ -1,4 +1,4 @@
-// put Storage functions in utils file
+// put parts of the Storage functions in utils file
 // add search function with .filter
 
 import { format } from "date-fns";
