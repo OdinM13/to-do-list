@@ -3,6 +3,7 @@
 
 import { format } from "date-fns";
 import { storageAvailable } from "./utils.js";
+import "./view.js";
 
 const SAVING_TO = "localStorage";
 
