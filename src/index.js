@@ -4,13 +4,13 @@
 import { format } from "date-fns";
 import { storageAvailable } from "./utils.js";
 import "./view.js";
+import { renderProjectsSidebar } from "./view.js";
 
 const SAVING_TO = "localStorage";
 
 class Controller {
     constructor () {
         this.projects = this.loadStorage("Project");
-        console.table(this.loadStorage("Project"));
     }
 
     createProject (name) {
@@ -151,6 +151,7 @@ const appController = new Controller();
 if (appController.projects.length === 0) {
     appController.createProject("Home");
 }
+renderProjectsSidebar(appController);
 
 window.appController = appController;
 // window.testTodo = testTodo;
