@@ -17,6 +17,7 @@ class Controller {
         const project = new Project (name);
         this.projects.push(project);
         this.updateStorage("Project", this.projects);
+        renderProjectsSidebar(appController);
         return project;
     }
 
@@ -136,15 +137,15 @@ class Todo {
     }
 }
 
-// const testTodo = new Todo ({
-//     title: "Test",
-//     description: "This is a description",
-//     project: "Project A",
-//     dueDate: format(new Date(2026, 1, 21), "dd/MM/yyyy"),
-//     priority: "high",
-//     notes: "This and that",
-//     complete: false
-// });
+const testTodo = new Todo ({
+    title: "Test",
+    description: "This is a description",
+    project: "Home",
+    dueDate: format(new Date(2026, 1, 21), "dd/MM/yyyy"),
+    priority: "high",
+    notes: "This and that",
+    complete: false
+});
 
 const appController = new Controller();
 
