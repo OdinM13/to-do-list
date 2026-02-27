@@ -1,3 +1,10 @@
+:root {
+    --nav-bg-color: #1e293b;
+    --main-bg-color: #f4f6f8; 
+    --green-bg-color: #59d989;
+    --blue-bg-color: #238acc;
+}
+
 * {
     font-family: "Roboto", sans-serif;
 }
@@ -14,7 +21,7 @@ body {
 
 nav {
     grid-area: sidebar;
-    background-color: #1e293b;
+    background-color: var(--nav-bg-color);
     display: flex;
     flex-direction:column;
     align-items: center;
@@ -23,16 +30,22 @@ nav {
 header {
     grid-area: header;
     background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 20px 50px;
 }
 
 main {
     grid-area: main;
-    background-color: #f4f6f8;
+    background-color: var(--main-bg-color);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
 }
 
 footer {
     grid-area: footer;
-    background-color: #1e293b;
+    background-color: var(--nav-bg-color);
     color: white;
     font-weight: bold;
     display: flex;
@@ -61,4 +74,68 @@ footer {
     font-weight: bold;
     font-size: 1.8rem;
     margin-bottom: 30px;
+}
+
+.buttonPrj {
+    color: white;
+    font-size: 1.3rem;
+    background: 
+        linear-gradient(var(--nav-bg-color), var(--nav-bg-color)) padding-box,
+        linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
+    padding: 10px 30px;
+    border: 5px solid transparent;
+    border-radius: 20px;
+}
+
+.buttonPrj:hover {
+    background: 
+        linear-gradient(
+            color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color)), 
+            color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color))
+        ) padding-box,
+        linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
+    box-shadow: var(--green-bg-color) 0 0 30px 0px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-evenly;
+    flex-grow: 1;
+}
+
+.buttonAct {
+  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--blue-bg-color) 51%, var(--green-bg-color) 100%);
+}
+
+.buttonAct {
+  margin: 10px;
+  padding: 10px 25px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  font-size: 1.3rem;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+}
+
+.buttonAct:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.todo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(6, 78, 59, 0.15);
+    padding: 20px;
+    margin: 20px;
 }

@@ -125,7 +125,7 @@ class Todo {
     constructor (tdData) {
         this.title = tdData.title;
         this.description = tdData.description || "";
-        this.project = tdData.project || "home";
+        this.project = tdData.project || "Home";
         this.dueDate = tdData.dueDate || "";
         this.priority = tdData.priority || "normal";
         this.notes = tdData.notes || "";
