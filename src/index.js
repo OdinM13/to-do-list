@@ -17,7 +17,7 @@ class Controller {
         const project = new Project (name);
         this.projects.push(project);
         this.updateStorage("Project", this.projects);
-        renderProjectsSidebar(appController);
+        renderProjectsSidebar(appController, handleProjectChange);
         return project;
     }
 
@@ -89,6 +89,9 @@ class Controller {
     deleteStorage() {
         localStorage.clear();
         this.projects = [];
+        //Home Project should always be present
+        this.createProject("Home");
+        renderProjectsSidebar(appController, handleProjectChange);
     }
 }
 
@@ -152,10 +155,18 @@ const appController = new Controller();
 if (appController.projects.length === 0) {
     appController.createProject("Home");
 }
-renderProjectsSidebar(appController);
+renderProjectsSidebar(appController, handleProjectChange);
 renderHeader();
 const homeProject = appController.projects.find(proj => proj.name === "Home");
-renderTodoList(homeProject.todos);
+renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
+
+function handleProjectChange(todoTitle, oldProjectName, newProjectName) {
+    appController.removeTodo(oldProjectName, todoTitle, newProjectName);
+    
+    const currentProject = appController.projects.find(proj => proj.name === oldProjectName);
+    
+    renderTodoList(currentProject.todos, appController.projects, handleProjectChange);
+}
 
 window.appController = appController;
 // window.testTodo = testTodo;

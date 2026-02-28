@@ -1,3 +1,7 @@
+// Add code to change priority
+// Add code to complete to-do
+// Add eventlistener and forms to buttons
+// Add deleteToDo Button
 import "./css/reset.css";
 import "./css/styles.css";
 
@@ -22,33 +26,33 @@ nav.appendChild(projectTitle);
 nav.appendChild(projects);
 
 //renderProjectsSidebar()
-function renderProjectsSidebar(controller) {
+function renderProjectsSidebar(controller, onProjectChange) {
     projects.innerHTML = "";
     for (const element of controller.projects) {
-        renderProjects(element);
+        renderProjects(element, controller.projects, onProjectChange);
     }
 }
 
-function renderProjects(element) {
+function renderProjects(element, allProjects, onProjectChange) {
     const newButton = document.createElement("button");
     newButton.classList.add("buttonPrj");
     newButton.textContent = element.name;
     projects.appendChild(newButton);
 
     newButton.addEventListener("click", () => {
-        renderTodoList(element.todos);
+        renderTodoList(element.todos, allProjects, onProjectChange);
     })
 }
 
-function renderTodoList(todos) {
+function renderTodoList(todos, allProjects, onProjectChange) {
     const contentDiv = document.querySelector(".content");
     contentDiv.innerHTML = "";
     for (const element of todos) { 
-        renderTodo(element);
+        renderTodo(element, allProjects, onProjectChange);
     }
 }
 
-function renderTodo(element){
+function renderTodo(element, allProjects, onProjectChange){
     const newDiv = document.createElement("div");
     newDiv.classList.add("todo");
 
@@ -60,29 +64,57 @@ function renderTodo(element){
     newDescription.classList.add("description");
     newDescription.appendChild(document.createTextNode("Description: " + element.description));
 
+    const newProjectDiv = document.createElement("div");
+    newProjectDiv.classList.add("project-div");
     const newProject = document.createElement("select");
-    newProject.classList.add("project-selection");
-    //How can I add the other projects to the selection?
-    const optionProject = document.createElement("option");
-    optionProject.value = element.project;
-    optionProject.text = element.project;
-    newProject.appendChild(optionProject);
+    newProject.id = "project";
+    newProject.name = "project";
+    const newProjectLabel = document.createElement("label");
+    newProjectLabel.htmlFor = newProject.id;
+    newProjectLabel.appendChild(document.createTextNode("Project: "));
+    allProjects.forEach(proj => {
+        const option = document.createElement("option");
+        option.value = proj.name;
+        option.text = proj.name;
+        if (element.project === proj.name) option.selected = true;
+        newProject.appendChild(option);
+    });
+    newProjectDiv.insertAdjacentElement('beforeend', newProjectLabel);
+    newProjectDiv.insertAdjacentElement('beforeend', newProject);
+
+    newProject.addEventListener("change", (event) => {
+        const newProjectName = event.target.value;
+        const oldProjectName = element.project;
+        const todoTitle = element.title;
+
+        if (newProjectName !== oldProjectName) {
+            onProjectChange(todoTitle, oldProjectName, newProjectName);
+        }
+    });
 
     const newDate = document.createElement("div");
     newDate.classList.add("date");
     newDate.appendChild(document.createTextNode("Due Date: " + element.dueDate));
 
+    const newPriorityDiv = document.createElement("div");
+    newPriorityDiv.classList.add("priority-div");
     const newPriority = document.createElement("select");
-    newPriority.classList.add("priority");
+    newPriority.id = "priority";
+    newPriority.name = "priority";
+    const newPriorityLabel = document.createElement("label");
+    newPriorityLabel.htmlFor = newPriority.id;
+    newPriorityLabel.appendChild(document.createTextNode("Priority: "));
     const priorities = ["low", "normal", "high"];
     priorities.forEach(prio => {
         const option = document.createElement("option");
         option.value = prio;
         option.text = prio;
-        // Sorgt dafür, dass die gespeicherte Priorität des Todos vorausgewählt ist!
         if (element.priority === prio) option.selected = true; 
         newPriority.appendChild(option);
     });
+    newPriorityDiv.insertAdjacentElement('beforeend', newPriorityLabel);
+    newPriorityDiv.insertAdjacentElement('beforeend', newPriority);
+
 
     const newNote = document.createElement("div");
     newNote.classList.add("note");
@@ -103,11 +135,12 @@ function renderTodo(element){
 
     const currentDiv = document.querySelector(".content");
     currentDiv.insertAdjacentElement('beforeend', newDiv);
+
     newDiv.insertAdjacentElement('beforeend', newTitle);
     newDiv.insertAdjacentElement('beforeend', newDescription);
-    newDiv.insertAdjacentElement('beforeend', newProject);
+    newDiv.insertAdjacentElement('beforeend', newProjectDiv);
     newDiv.insertAdjacentElement('beforeend', newDate);
-    newDiv.insertAdjacentElement('beforeend', newPriority);
+    newDiv.insertAdjacentElement('beforeend', newPriorityDiv);
     newDiv.insertAdjacentElement('beforeend', newNote);
     newDiv.insertAdjacentElement('beforeend', newCompleteDiv);
 }
@@ -123,12 +156,21 @@ function renderHeader() {
     createProject.classList.add("buttonAct");
     createProject.textContent = "Create Project";
 
+    const deleteProject = document.createElement("button");
+    deleteProject.classList.add("buttonAct");
+    deleteProject.textContent = "Delete Project";
+
     const createTodo = document.createElement("button");
     createTodo.classList.add("buttonAct");
     createTodo.textContent = "Create To-Do";
 
+    const deleteAll = document.createElement("button");
+    deleteAll.classList.add("buttonAct");
+    deleteAll.textContent = "Delete Everything";
+
     header.appendChild(newDiv);
     newDiv.appendChild(createProject);
+    newDiv.appendChild(deleteProject);
     newDiv.appendChild(createTodo);
-
+    newDiv.appendChild(deleteAll);
 }
