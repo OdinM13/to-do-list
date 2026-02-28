@@ -4,7 +4,7 @@
 import { format } from "date-fns";
 import { storageAvailable } from "./utils.js";
 import "./view.js";
-import { renderProjectsSidebar } from "./view.js";
+import { renderProjectsSidebar, renderTodoList, renderHeader } from "./view.js";
 
 const SAVING_TO = "localStorage";
 
@@ -153,6 +153,9 @@ if (appController.projects.length === 0) {
     appController.createProject("Home");
 }
 renderProjectsSidebar(appController);
+renderHeader();
+const homeProject = appController.projects.find(proj => proj.name === "Home");
+renderTodoList(homeProject.todos);
 
 window.appController = appController;
 // window.testTodo = testTodo;

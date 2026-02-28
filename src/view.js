@@ -3,7 +3,7 @@ import "./css/styles.css";
 
 import logoImage from "./assets/tick-off-logo.svg";
 
-export { renderProjectsSidebar };
+export { renderProjectsSidebar, renderTodoList, renderHeader };
 
 const projects = document.createElement("div");
 projects.classList.add("projects");
@@ -43,7 +43,7 @@ function renderProjects(element) {
 function renderTodoList(todos) {
     const contentDiv = document.querySelector(".content");
     contentDiv.innerHTML = "";
-    for (const element of todos) { // Project.todos is not valid. needs to change
+    for (const element of todos) { 
         renderTodo(element);
     }
 }
@@ -74,11 +74,32 @@ function renderTodo(element){
 
     const newPriority = document.createElement("select");
     newPriority.classList.add("priority");
-    // Add every priority option: high, medium, low
-    const optionPriority = document.createElement("option");
-    optionPriority.value = element.priority;
-    optionPriority.text = element.priority;
-    newPriority.appendChild(optionPriority);
+    const priorities = ["low", "normal", "high"];
+    priorities.forEach(prio => {
+        const option = document.createElement("option");
+        option.value = prio;
+        option.text = prio;
+        // Sorgt dafür, dass die gespeicherte Priorität des Todos vorausgewählt ist!
+        if (element.priority === prio) option.selected = true; 
+        newPriority.appendChild(option);
+    });
+
+    const newNote = document.createElement("div");
+    newNote.classList.add("note");
+    newNote.appendChild(document.createTextNode("Notes: " + element.notes));
+
+    const newCompleteDiv = document.createElement("div");
+    newCompleteDiv.classList.add("complete-div")
+    const newComplete = document.createElement("input");
+    newComplete.id = "complete";
+    newComplete.name = "complete";
+    newComplete.setAttribute("type", "checkbox");
+    newComplete.checked = element.complete;
+    const newLabel = document.createElement("label");
+    newLabel.htmlFor = newComplete.id;
+    newLabel.appendChild(document.createTextNode("Completed: "));
+    newCompleteDiv.insertAdjacentElement('beforeend', newLabel);
+    newCompleteDiv.insertAdjacentElement('beforeend', newComplete);
 
     const currentDiv = document.querySelector(".content");
     currentDiv.insertAdjacentElement('beforeend', newDiv);
@@ -87,6 +108,8 @@ function renderTodo(element){
     newDiv.insertAdjacentElement('beforeend', newProject);
     newDiv.insertAdjacentElement('beforeend', newDate);
     newDiv.insertAdjacentElement('beforeend', newPriority);
+    newDiv.insertAdjacentElement('beforeend', newNote);
+    newDiv.insertAdjacentElement('beforeend', newCompleteDiv);
 }
 
 //renderHeader
@@ -109,5 +132,3 @@ function renderHeader() {
     newDiv.appendChild(createTodo);
 
 }
-
-renderHeader();
