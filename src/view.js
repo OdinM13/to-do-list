@@ -1,5 +1,3 @@
-// Add code to change priority
-// Add code to complete to-do
 // Add eventlistener and forms to buttons
 // Add deleteToDo Button
 import "./css/reset.css";
@@ -115,6 +113,23 @@ function renderTodo(element, allProjects, onProjectChange){
     newPriorityDiv.insertAdjacentElement('beforeend', newPriorityLabel);
     newPriorityDiv.insertAdjacentElement('beforeend', newPriority);
 
+    newPriority.addEventListener("change", (event) => {
+        const newPriorityValue = event.target.value;
+        const oldPriorityValue = element.priority;
+
+        const priorityChange = new CustomEvent("priorityChange", {
+            detail: {
+                projectname: element.project,
+                todotitle: element.title,
+                valuename: newPriority.id,
+                newvalue: newPriorityValue
+            }
+        })
+
+        if (newPriorityValue !== oldPriorityValue) {
+           document.dispatchEvent(priorityChange);
+        }
+    });
 
     const newNote = document.createElement("div");
     newNote.classList.add("note");
@@ -146,8 +161,13 @@ function renderTodo(element, allProjects, onProjectChange){
 }
 
 //renderHeader
-function renderHeader() {
+function renderHeader(allProjects) {
     const header = document.querySelector("header");
+    const delSelect = document.querySelector("#del-select");
+    const dialogCProj = document.querySelector("#createproject");
+    const dialogDProj = document.querySelector("#deleteproject");
+
+    header.innerHTML = "";
 
     const newDiv = document.createElement("div");
     newDiv.classList.add("actions");
@@ -155,17 +175,40 @@ function renderHeader() {
     const createProject = document.createElement("button");
     createProject.classList.add("buttonAct");
     createProject.textContent = "Create Project";
+    createProject.addEventListener("click", () => {
+        document.querySelector(".form").reset();
+        dialogCProj.showModal();
+    })
 
     const deleteProject = document.createElement("button");
-    deleteProject.classList.add("buttonAct");
+    deleteProject.classList.add("buttonActDel");
     deleteProject.textContent = "Delete Project";
+    deleteProject.addEventListener("click", () => {
+        document.querySelector(".form").reset();
+        delSelect.innerHTML = "";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.text = "--Please choose a Project to delete--";
+        delSelect.appendChild(defaultOption);
+
+        allProjects.forEach(proj => {
+            if (proj.name !== "Home") {
+                const option = document.createElement("option");
+                option.value = proj.name;
+                option.text = proj.name;
+                delSelect.appendChild(option);
+            }
+        });
+        dialogDProj.showModal();
+    })
 
     const createTodo = document.createElement("button");
     createTodo.classList.add("buttonAct");
     createTodo.textContent = "Create To-Do";
 
     const deleteAll = document.createElement("button");
-    deleteAll.classList.add("buttonAct");
+    deleteAll.classList.add("buttonActDel");
     deleteAll.textContent = "Delete Everything";
 
     header.appendChild(newDiv);
@@ -174,3 +217,41 @@ function renderHeader() {
     newDiv.appendChild(createTodo);
     newDiv.appendChild(deleteAll);
 }
+
+document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("cancel")) {
+        event.target.closest("dialog").close();
+    }
+    if (event.target.classList.contains("submit")) {
+        const dialog = event.target.closest("dialog");
+
+        if (dialog.id === "createproject") {
+            const name = document.getElementById("name").value;
+            const submitProject = new CustomEvent("submitproject", {
+                detail: {
+                    projectname: name,
+                }
+            })
+            document.dispatchEvent(submitProject);
+            dialog.close();
+        }
+
+        if (dialog.id === "deleteproject") {
+            const selectedProject = document.querySelector("#del-select").value;
+
+            const deleteEvent = new CustomEvent("deleteproject", {
+                detail: {
+                    projectname: selectedProject
+                }
+            });
+
+            document.dispatchEvent(deleteEvent);
+            dialog.close();
+        }
+
+
+        if (dialog.id === "createtodo") {
+
+        }
+    }
+})

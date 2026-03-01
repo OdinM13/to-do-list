@@ -64,6 +64,17 @@ class Controller {
         }
     }
 
+    changeProperty (projectname, todotitle, valuename, newvalue) {
+        const index = this.projects.findIndex(e => e.name === projectname);
+        if (index > -1) {
+            const todoindex = this.projects[index].todos.findIndex(e => e.title === todotitle);
+            if (todoindex > -1) {
+                this.projects[index].todos[todoindex].changeProperty(valuename, newvalue);
+                this.updateStorage("Project", this.projects);
+            }
+        }
+    }
+
     updateStorage (name, data) {
         if (storageAvailable(SAVING_TO)) {
             localStorage.setItem(name, JSON.stringify(data));
@@ -156,7 +167,7 @@ if (appController.projects.length === 0) {
     appController.createProject("Home");
 }
 renderProjectsSidebar(appController, handleProjectChange);
-renderHeader();
+renderHeader(appController.projects);
 const homeProject = appController.projects.find(proj => proj.name === "Home");
 renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
 
@@ -167,6 +178,22 @@ function handleProjectChange(todoTitle, oldProjectName, newProjectName) {
     
     renderTodoList(currentProject.todos, appController.projects, handleProjectChange);
 }
+
+document.addEventListener("priorityChange", (event) => {
+    appController.changeProperty(event.detail.projectname, event.detail.todotitle, event.detail.valuename, event.detail.newvalue);
+});
+
+document.addEventListener("submitproject", (event) => {
+    appController.createProject(event.detail.projectname);
+    renderHeader(appController.projects);
+    renderProjectsSidebar(appController, handleProjectChange);
+})
+
+document.addEventListener("deleteproject", (event) => {
+    appController.deleteProject(event.detail.projectname);
+    renderHeader(appController.projects);
+    renderProjectsSidebar(appController, handleProjectChange);
+})
 
 window.appController = appController;
 // window.testTodo = testTodo;

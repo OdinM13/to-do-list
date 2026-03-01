@@ -3,6 +3,7 @@
     --main-bg-color: #f4f6f8; 
     --green-bg-color: #59d989;
     --blue-bg-color: #238acc;
+    --red-bg-color: #e52d27; 
 }
 
 * {
@@ -38,8 +39,6 @@ header {
 main {
     grid-area: main;
     background-color: var(--main-bg-color);
-    /* display: flex; */
-    /* flex-wrap: wrap; */
     padding: 20px;
 }
 
@@ -105,10 +104,15 @@ footer {
 }
 
 .buttonAct {
-  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--blue-bg-color) 51%, var(--green-bg-color) 100%);
+  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--blue-bg-color) 51%, var(--nav-bg-color) 100%);
 }
 
-.buttonAct {
+.buttonActDel {
+  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--red-bg-color) 51%, var(--nav-bg-color) 100%);
+}
+
+.buttonAct,
+.buttonActDel {
   margin: 10px;
   padding: 10px 25px;
   text-align: center;
@@ -122,7 +126,8 @@ footer {
   border: none;
 }
 
-.buttonAct:hover {
+.buttonAct:hover,
+.buttonActDel:hover {
   background-position: right center;
   color: #fff;
   text-decoration: none;
@@ -131,17 +136,53 @@ footer {
 .todo {
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    /* justify-content: space-between; */
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid var(--green-bg-color);
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(6, 78, 59, 0.15);
     padding: 20px;
     margin: 20px;
+    gap: 5px;
+}
+
+.todo:hover {
+    box-shadow: var(--green-bg-color) 0 0 30px 0px;
 }
 
 .title {
     font-weight: bold;
     font-size: 1.2rem;
+}
+
+.submit {
+    flex-grow: 1;
+    background-color: var(--green-bg-color);
+    color: white;
+}
+
+.cancel {
+    background-color: var(--red-bg-color);
+    color: white;
+}
+
+.submit,
+.cancel {
+    border-radius: 20px;
+    border: none;
+    padding: 5px 10px;
+}
+
+dialog {
+    margin: auto;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: min(400px, 90%);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
