@@ -13,7 +13,7 @@
 body {
     display: grid;
     grid-template-columns: 1fr 5fr;
-    grid-template-rows: 3fr 12fr 1fr;
+    grid-template-rows: 4fr 20fr 1fr;
     grid-template-areas:
     "sidebar header"
     "sidebar main"
@@ -104,11 +104,11 @@ footer {
 }
 
 .buttonAct {
-  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--blue-bg-color) 51%, var(--nav-bg-color) 100%);
+  background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--green-bg-color) 51%, var(--blue-bg-color) 100%);
 }
 
 .buttonActDel {
-  background-image: linear-gradient(to right, var(--nav-bg-color) 0%, var(--red-bg-color) 51%, var(--nav-bg-color) 100%);
+  background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--red-bg-color) 51%, var(--blue-bg-color) 100%);
 }
 
 .buttonAct,
@@ -137,16 +137,41 @@ footer {
     display: flex;
     flex-direction: column;
     background-color: white;
-    border: 1px solid var(--green-bg-color);
+    border: 1px solid var(--blue-bg-color);
     border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(6, 78, 59, 0.15);
-    padding: 20px;
+    box-shadow: 0 10px 20px rgba(35, 138, 204, 0.15);
+    padding: 15px 70px;
     margin: 20px;
     gap: 5px;
+    /* text-decoration: line-through; */
 }
 
 .todo:hover {
-    box-shadow: var(--green-bg-color) 0 0 30px 0px;
+    box-shadow: var(--blue-bg-color) 0 0 30px 0px;
+}
+
+.maindiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.optdiv {
+    display: none;
+}
+
+.optdiv.show {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.btndiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .title {
@@ -185,4 +210,19 @@ form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.delbutton {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--red-bg-color);
+    color: white;
+}
+
+.arrbutton {
+    border: none;
+    background-color: white;
 }
