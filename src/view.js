@@ -2,6 +2,7 @@
 // Add deleteToDo Button
 import "./css/reset.css";
 import "./css/styles.css";
+import { format } from "date-fns";
 
 import logoImage from "./assets/tick-off-logo.svg";
 
@@ -164,8 +165,11 @@ function renderTodo(element, allProjects, onProjectChange){
 function renderHeader(allProjects) {
     const header = document.querySelector("header");
     const delSelect = document.querySelector("#del-select");
+    const tdSelect = document.querySelector("#td-select");
     const dialogCProj = document.querySelector("#createproject");
     const dialogDProj = document.querySelector("#deleteproject");
+    const dialogCToDo = document.querySelector("#createtodo");
+    const dialogReset = document.querySelector("#reset");
 
     header.innerHTML = "";
 
@@ -206,16 +210,34 @@ function renderHeader(allProjects) {
     const createTodo = document.createElement("button");
     createTodo.classList.add("buttonAct");
     createTodo.textContent = "Create To-Do";
+    createTodo.addEventListener("click", () => {
+        document.querySelector("#createtodo .form").reset();
+        const today = format(new Date(), "yyyy-MM-dd");
+        const dateInput = document.getElementById("duedate");
+        dateInput.value = today;
+        dateInput.min = today;
+        allProjects.forEach(proj => {
+            const option = document.createElement("option");
+            option.value = proj.name;
+            option.text = proj.name;
+            tdSelect.appendChild(option);
+        });
+        dialogCToDo.showModal();
+    })
 
-    const deleteAll = document.createElement("button");
-    deleteAll.classList.add("buttonActDel");
-    deleteAll.textContent = "Delete Everything";
+    const resetAll = document.createElement("button");
+    resetAll.classList.add("buttonActDel");
+    resetAll.textContent = "Reset";
+    resetAll.addEventListener("click", () => {
+        document.querySelector(".form").reset();
+        dialogReset.showModal();
+    })
 
     header.appendChild(newDiv);
     newDiv.appendChild(createProject);
     newDiv.appendChild(deleteProject);
     newDiv.appendChild(createTodo);
-    newDiv.appendChild(deleteAll);
+    newDiv.appendChild(resetAll);
 }
 
 document.addEventListener("click", (event) => {
@@ -251,7 +273,29 @@ document.addEventListener("click", (event) => {
 
 
         if (dialog.id === "createtodo") {
+            const titleVal = document.querySelector("#title").value;
+            const descriptionVal = document.querySelector("#descr").value;
+            const projectVal = document.querySelector("#td-select").value;
+            const dueDateVal = document.querySelector("#duedate").value;
+            const priorityVal = document.querySelector("#pr-select").value;
+            const notesVal = document.querySelector("#notes").value;
 
+            const createTodo = new CustomEvent("createtodo", {
+                detail: {
+                    title: titleVal,
+                    description: descriptionVal,
+                    project: projectVal,
+                    dueDate: dueDateVal,
+                    priority: priorityVal,
+                    notes: notesVal
+                }
+            });
+            document.dispatchEvent(createTodo);
         }
-    }
+
+         if (dialog.id === "reset") {
+             const resetEvent = new CustomEvent("resetall");
+             document.dispatchEvent(resetEvent);
+        }
+   }
 })

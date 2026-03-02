@@ -195,5 +195,13 @@ document.addEventListener("deleteproject", (event) => {
     renderProjectsSidebar(appController, handleProjectChange);
 })
 
+document.addEventListener("createtodo", (event) => {
+    appController.createTodo(event.detail);
+})
+
+document.addEventListener("resetall", () => {
+    appController.deleteStorage();
+})
+
 window.appController = appController;
 // window.testTodo = testTodo;
