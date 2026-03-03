@@ -1,7 +1,5 @@
-// Add eventlistener and forms to buttons
-// Add deleteToDo Button, functionality is missing
-// Add code to change arrow when todo is extended
 // Change todo card design
+// Fix checkbox
 import "./css/reset.css";
 import "./css/styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -57,6 +55,12 @@ function renderTodoList(todos, allProjects, onProjectChange) {
 function renderTodo(element, allProjects, onProjectChange){
     const newDiv = document.createElement("div");
     newDiv.classList.add("todo");
+    const checkDiv = document.createElement("div");
+    checkDiv.classList.add("checkdiv");
+    const contentDiv = document.createElement("div");
+    contentDiv.classList.add("contentdiv");
+    const delDiv = document.createElement("div");
+    delDiv.classList.add("deldiv");
     const mainDiv = document.createElement("div");
     mainDiv.classList.add("maindiv");
     const optDiv = document.createElement("div");
@@ -107,18 +111,17 @@ function renderTodo(element, allProjects, onProjectChange){
     const delButton = document.createElement("button");
     delButton.classList.add("delbutton");
     const delIcon = document.createElement("i");
-    delIcon.classList.add("fa-solid", "fa-trash");
+    delIcon.classList.add("fa-solid", "fa-trash", "fa-lg");
     delButton.appendChild(delIcon);
 
     const arrButtonDown = document.createElement("button");
-    arrButtonDown.classList.add("arrbutton");
+    arrButtonDown.classList.add("arrbutton", "arrbuttondown");
     const arrIconDown = document.createElement("i");
     arrIconDown.classList.add("fa-solid", "fa-angle-down", "fa-lg");
     arrButtonDown.appendChild(arrIconDown);
     
     const arrButtonUp = document.createElement("button");
-    arrButtonUp.classList.add("arrbutton");
-    arrButtonUp.style.visibility = "hidden";
+    arrButtonUp.classList.add("arrbutton", "arrbuttonup");
     const arrIconUp = document.createElement("i");
     arrIconUp.classList.add("fa-solid", "fa-angle-up", "fa-lg");
     arrButtonUp.appendChild(arrIconUp);
@@ -171,20 +174,21 @@ function renderTodo(element, allProjects, onProjectChange){
     newComplete.name = "complete";
     newComplete.setAttribute("type", "checkbox");
     newComplete.checked = element.complete;
-    // const newLabel = document.createElement("label");
-    // newLabel.htmlFor = newComplete.id;
+    const newLabel = document.createElement("label");
+    newLabel.htmlFor = newComplete.id;
     // newLabel.appendChild(document.createTextNode("Completed: "));
-    // newCompleteDiv.insertAdjacentElement('beforeend', newLabel);
     newCompleteDiv.insertAdjacentElement('beforeend', newComplete);
+    newCompleteDiv.insertAdjacentElement('beforeend', newLabel);
 
     const currentDiv = document.querySelector(".content");
     currentDiv.insertAdjacentElement('beforeend', newDiv);
 
-    mainDiv.insertAdjacentElement('beforeend', newCompleteDiv);
+
+    checkDiv.insertAdjacentElement('beforeend', newCompleteDiv);
+
     mainDiv.insertAdjacentElement('beforeend', newTitle);
     mainDiv.insertAdjacentElement('beforeend', newDate);
     mainDiv.insertAdjacentElement('beforeend', newPriorityDiv);
-    mainDiv.insertAdjacentElement('beforeend', delButton);
 
     optDiv.insertAdjacentElement('beforeend', newDescription);
     optDiv.insertAdjacentElement('beforeend', newProjectDiv);
@@ -193,9 +197,15 @@ function renderTodo(element, allProjects, onProjectChange){
     btnDiv.insertAdjacentElement('beforeend', arrButtonDown);
     btnDiv.insertAdjacentElement('beforeend', arrButtonUp);
 
-    newDiv.insertAdjacentElement('beforeend', mainDiv);
-    newDiv.insertAdjacentElement('beforeend', optDiv);
-    newDiv.insertAdjacentElement('beforeend', btnDiv);
+    contentDiv.insertAdjacentElement('beforeend', mainDiv);
+    contentDiv.insertAdjacentElement('beforeend', optDiv);
+    contentDiv.insertAdjacentElement('beforeend', btnDiv);
+
+    delDiv.insertAdjacentElement('beforeend', delButton);
+
+    newDiv.insertAdjacentElement('beforeend', checkDiv);
+    newDiv.insertAdjacentElement('beforeend', contentDiv);
+    newDiv.insertAdjacentElement('beforeend', delDiv);
 }
 
 //renderHeader
@@ -340,5 +350,27 @@ document.addEventListener("click", (event) => {
         const currentTodoCard = arrBtn.closest(".todo");
         const optDiv = currentTodoCard.querySelector(".optdiv");
         optDiv.classList.toggle("show");
+
+        const buttonone = currentTodoCard.querySelector(".arrbuttonup");
+        buttonone.classList.toggle("show");
+
+        const buttontwo = currentTodoCard.querySelector(".arrbuttondown");
+        buttontwo.classList.toggle("show");
+    }
+
+    const trashBtn = event.target.closest(".delbutton");
+    if (trashBtn) {
+        const currentTodoCard = trashBtn.closest(".todo");
+
+        const titleVal = currentTodoCard.querySelector(".title").innerHTML;
+        const projectVal = currentTodoCard.querySelector("#project").value;
+
+        const deleteTodo = new CustomEvent("deletetodo", {
+            detail: {
+                projectname: projectVal,
+                todotitle: titleVal
+            }
+        });
+        document.dispatchEvent(deleteTodo);
     }
 })

@@ -199,6 +199,12 @@ document.addEventListener("createtodo", (event) => {
     appController.createTodo(event.detail);
 })
 
+document.addEventListener("deletetodo", (event) => {
+    appController.deleteTodo(event.detail.projectname, event.detail.todotitle);
+    const findProject = appController.projects.find(proj => proj.name === event.detail.projectname);
+    renderTodoList(findProject.todos, appController.projects, handleProjectChange);
+})
+
 document.addEventListener("resetall", () => {
     appController.deleteStorage();
 })

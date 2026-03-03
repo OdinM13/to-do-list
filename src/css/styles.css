@@ -80,8 +80,8 @@ footer {
     color: white;
     font-size: 1.3rem;
     background: 
-        linear-gradient(var(--nav-bg-color), var(--nav-bg-color)) padding-box,
-        linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
+    linear-gradient(var(--nav-bg-color), var(--nav-bg-color)) padding-box,
+    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
     padding: 10px 30px;
     border: 5px solid transparent;
     border-radius: 20px;
@@ -89,12 +89,13 @@ footer {
 
 .buttonPrj:hover {
     background: 
-        linear-gradient(
-            color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color)), 
-            color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color))
-        ) padding-box,
-        linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
+    linear-gradient(
+    color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color)), 
+    color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color))
+    ) padding-box,
+    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
     box-shadow: var(--green-bg-color) 0 0 30px 0px;
+    transform: scale(1.1);
 }
 
 .actions {
@@ -104,50 +105,59 @@ footer {
 }
 
 .buttonAct {
-  background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--green-bg-color) 51%, var(--blue-bg-color) 100%);
+    background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--green-bg-color) 51%, var(--blue-bg-color) 100%);
 }
 
 .buttonActDel {
-  background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--red-bg-color) 51%, var(--blue-bg-color) 100%);
+    background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--red-bg-color) 51%, var(--blue-bg-color) 100%);
 }
 
 .buttonAct,
 .buttonActDel {
-  margin: 10px;
-  padding: 10px 25px;
-  text-align: center;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  font-size: 1.3rem;
-  box-shadow: 0 0 20px #eee;
-  border-radius: 20px;
-  outline: none;
-  border: none;
+    margin: 10px;
+    padding: 10px 25px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    font-size: 1.3rem;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 20px;
+    outline: none;
+    border: none;
 }
 
 .buttonAct:hover,
 .buttonActDel:hover {
-  background-position: right center;
-  color: #fff;
-  text-decoration: none;
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
 }
 
 .todo {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
     border: 1px solid var(--blue-bg-color);
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(35, 138, 204, 0.15);
-    padding: 15px 70px;
+    padding: 15px 30px;
     margin: 20px;
-    gap: 5px;
+    gap: 70px;
     /* text-decoration: line-through; */
 }
 
 .todo:hover {
     box-shadow: var(--blue-bg-color) 0 0 30px 0px;
+    transform: scale(1.02);
+}
+
+.contentdiv {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
 }
 
 .maindiv {
@@ -215,14 +225,62 @@ form {
 .delbutton {
     display: flex;
     align-items: center;
-    padding: 5px 10px;
+    padding: 15px 15px;
     border-radius: 20px;
     border: none;
     background-color: var(--red-bg-color);
     color: white;
 }
 
-.arrbutton {
+.arrbuttondown,
+.arrbuttonup.show {
+    display: flex;
+    padding: 10px 10px;
     border: none;
     background-color: white;
 }
+
+.arrbuttonup {
+    display: none;
+}
+
+.arrbuttondown.show {
+    display: none;
+}
+
+.checkdiv {
+    display: flex;
+    align-items: center;
+}
+
+#complete {
+    appearance: none;
+    -webkit-appearance: none; 
+    width: 24px; 
+    height: 24px;
+    border-radius: 6px; 
+    border: 2px solid var(--nav-bg-color); 
+    background-color: var(--main-bg-color); 
+    cursor: pointer;
+    margin: 0; 
+    vertical-align: middle; 
+    position: relative; 
+}
+
+#complete:checked {
+    background-image: linear-gradient(to right, var(--blue-bg-color), var(--green-bg-color));
+    border-color: transparent; 
+}
+
+#complete:checked::after {
+    content: '\f00c'; 
+    font-family: 'Font Awesome 5 Free'; 
+    font-weight: 900; 
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
