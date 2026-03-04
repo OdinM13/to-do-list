@@ -151,16 +151,6 @@ class Todo {
     }
 }
 
-const testTodo = new Todo ({
-    title: "Test",
-    description: "This is a description",
-    project: "Home",
-    dueDate: format(new Date(2026, 1, 21), "dd/MM/yyyy"),
-    priority: "high",
-    notes: "This and that",
-    complete: false
-});
-
 const appController = new Controller();
 
 if (appController.projects.length === 0) {
@@ -209,5 +199,8 @@ document.addEventListener("resetall", () => {
     appController.deleteStorage();
 })
 
+document.addEventListener("changechecked", (event) => {
+    appController.changeProperty(event.detail.projectname, event.detail.todotitle, "complete", event.detail.iscomplete);
+})
+
 window.appController = appController;
-// window.testTodo = testTodo;

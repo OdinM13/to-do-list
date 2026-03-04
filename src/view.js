@@ -1,5 +1,5 @@
 // Change todo card design
-// Fix checkbox
+// Fix Strikthrough design
 import "./css/reset.css";
 import "./css/styles.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -167,24 +167,18 @@ function renderTodo(element, allProjects, onProjectChange){
     newNote.classList.add("note");
     newNote.appendChild(document.createTextNode("Notes: " + element.notes));
 
-    const newCompleteDiv = document.createElement("div");
-    newCompleteDiv.classList.add("complete-div")
     const newComplete = document.createElement("input");
-    newComplete.id = "complete";
+    newComplete.classList.add("custom-checkbox");
     newComplete.name = "complete";
     newComplete.setAttribute("type", "checkbox");
     newComplete.checked = element.complete;
-    const newLabel = document.createElement("label");
-    newLabel.htmlFor = newComplete.id;
-    // newLabel.appendChild(document.createTextNode("Completed: "));
-    newCompleteDiv.insertAdjacentElement('beforeend', newComplete);
-    newCompleteDiv.insertAdjacentElement('beforeend', newLabel);
+    if (element.complete === true) {
+        newDiv.classList.add("task-done");
+    }
+    checkDiv.insertAdjacentElement('beforeend', newComplete);
 
     const currentDiv = document.querySelector(".content");
     currentDiv.insertAdjacentElement('beforeend', newDiv);
-
-
-    checkDiv.insertAdjacentElement('beforeend', newCompleteDiv);
 
     mainDiv.insertAdjacentElement('beforeend', newTitle);
     mainDiv.insertAdjacentElement('beforeend', newDate);
@@ -374,3 +368,23 @@ document.addEventListener("click", (event) => {
         document.dispatchEvent(deleteTodo);
     }
 })
+
+document.addEventListener("change", (event) => {
+    if (event.target.classList.contains("custom-checkbox")) {
+        const currentTodoCard = event.target.closest(".todo");
+
+        const titleVal = currentTodoCard.querySelector(".title").innerHTML;
+        const projectVal = currentTodoCard.querySelector("#project").value;
+
+        const changeChecked = new CustomEvent("changechecked", {
+            detail: {
+                projectname: projectVal,
+                todotitle: titleVal,
+                iscomplete: event.target.checked
+            }
+        })
+        currentTodoCard.classList.toggle("task-done");
+        document.dispatchEvent(changeChecked);
+    }
+})
+
