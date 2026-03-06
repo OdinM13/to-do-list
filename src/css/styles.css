@@ -1,292 +1,308 @@
 :root {
-    --nav-bg-color: #1e293b;
-    --main-bg-color: #f4f6f8; 
-    --green-bg-color: #59d989;
-    --blue-bg-color: #238acc;
-    --red-bg-color: #e52d27; 
+  --nav-bg-color: #1e293b;
+  --main-bg-color: #f4f6f8;
+  --green-bg-color: #59d989;
+  --blue-bg-color: #238acc;
+  --red-bg-color: #e52d27;
 }
 
 * {
-    font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-template-rows: 4fr 20fr 1fr;
-    grid-template-areas:
-    "sidebar header"
-    "sidebar main"
-    "sidebar footer";
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 4fr 20fr 1fr;
+  grid-template-areas:
+    'sidebar header'
+    'sidebar main'
+    'sidebar footer';
 }
 
 nav {
-    grid-area: sidebar;
-    background-color: var(--nav-bg-color);
-    display: flex;
-    flex-direction:column;
-    align-items: center;
+  grid-area: sidebar;
+  background-color: var(--nav-bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
-    grid-area: header;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    padding: 20px 50px;
+  grid-area: header;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 20px 50px;
 }
 
 main {
-    grid-area: main;
-    background-color: var(--main-bg-color);
-    padding: 20px;
+  grid-area: main;
+  background-color: var(--main-bg-color);
+  padding: 20px;
 }
 
 footer {
-    grid-area: footer;
-    background-color: var(--nav-bg-color);
-    color: white;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  grid-area: footer;
+  background-color: var(--nav-bg-color);
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo {
-    height: 150px;
-    width: auto;
+  height: 150px;
+  width: auto;
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .projects {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .project-title {
-    color: white;
-    font-weight: bold;
-    font-size: 1.8rem;
-    margin-bottom: 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
 }
 
 .buttonPrj {
-    color: white;
-    font-size: 1.3rem;
-    background: 
+  color: white;
+  font-size: 1.3rem;
+  background:
     linear-gradient(var(--nav-bg-color), var(--nav-bg-color)) padding-box,
-    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
-    padding: 10px 30px;
-    border: 5px solid transparent;
-    border-radius: 20px;
+    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color))
+      border-box;
+  padding: 10px 30px;
+  border: 5px solid transparent;
+  border-radius: 20px;
 }
 
 .buttonPrj:hover {
-    background: 
+  background:
     linear-gradient(
-    color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color)), 
-    color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color))
-    ) padding-box,
-    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color)) border-box;
-    box-shadow: var(--green-bg-color) 0 0 30px 0px;
-    transform: scale(1.1);
+        color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color)),
+        color-mix(in srgb, var(--blue-bg-color) 35%, var(--nav-bg-color))
+      )
+      padding-box,
+    linear-gradient(60deg, var(--green-bg-color), var(--blue-bg-color))
+      border-box;
+  box-shadow: var(--green-bg-color) 0 0 30px 0px;
+  transform: scale(1.1);
 }
 
 .actions {
-    display: flex;
-    justify-content: space-evenly;
-    flex-grow: 1;
+  display: flex;
+  justify-content: space-evenly;
+  flex-grow: 1;
 }
 
 .buttonAct {
-    background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--green-bg-color) 51%, var(--blue-bg-color) 100%);
+  background-image: linear-gradient(
+    to right,
+    var(--blue-bg-color) 0%,
+    var(--green-bg-color) 51%,
+    var(--blue-bg-color) 100%
+  );
 }
 
 .buttonActDel {
-    background-image: linear-gradient(to right, var(--blue-bg-color) 0%, var(--red-bg-color) 51%, var(--blue-bg-color) 100%);
+  background-image: linear-gradient(
+    to right,
+    var(--blue-bg-color) 0%,
+    var(--red-bg-color) 51%,
+    var(--blue-bg-color) 100%
+  );
 }
 
 .buttonAct,
 .buttonActDel {
-    margin: 10px;
-    padding: 10px 25px;
-    text-align: center;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    font-size: 1.3rem;
-    box-shadow: 0 0 20px #eee;
-    border-radius: 20px;
-    outline: none;
-    border: none;
+  margin: 10px;
+  padding: 10px 25px;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  font-size: 1.3rem;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 20px;
+  outline: none;
+  border: none;
 }
 
 .buttonAct:hover,
 .buttonActDel:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
 }
 
 .todo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    border: 1px solid var(--blue-bg-color);
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(35, 138, 204, 0.15);
-    padding: 15px 30px;
-    margin: 20px;
-    gap: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border: 1px solid var(--blue-bg-color);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(35, 138, 204, 0.15);
+  padding: 15px 30px;
+  margin: 20px;
+  gap: 70px;
 }
 
 .todo:hover {
-    box-shadow: var(--blue-bg-color) 0 0 30px 0px;
-    transform: scale(1.02);
+  box-shadow: var(--blue-bg-color) 0 0 30px 0px;
+  transform: scale(1.02);
 }
 
 .contentdiv {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
 }
 
 .maindiv {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
 }
 
 .optdiv {
-    display: none;
+  display: none;
 }
 
 .optdiv.show {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
 }
 
 .btndiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
-    font-weight: bold;
-    font-size: 1.2rem;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .submit {
-    flex-grow: 1;
-    background-color: var(--green-bg-color);
-    color: white;
+  flex-grow: 1;
+  background-color: var(--green-bg-color);
+  color: white;
 }
 
 .cancel {
-    background-color: var(--red-bg-color);
-    color: white;
+  background-color: var(--red-bg-color);
+  color: white;
 }
 
 .submit,
 .cancel {
-    border-radius: 20px;
-    border: none;
-    padding: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  padding: 5px 10px;
 }
 
 dialog {
-    margin: auto;
-    border: none;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: min(400px, 90%);
+  margin: auto;
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: min(400px, 90%);
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .delbutton {
-    display: flex;
-    align-items: center;
-    padding: 15px 15px;
-    border-radius: 20px;
-    border: none;
-    background-color: var(--red-bg-color);
-    color: white;
+  display: flex;
+  align-items: center;
+  padding: 15px 15px;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--red-bg-color);
+  color: white;
 }
 
 .arrbuttondown,
 .arrbuttonup.show {
-    display: flex;
-    padding: 10px 10px;
-    border: none;
-    background-color: white;
+  display: flex;
+  padding: 10px 10px;
+  border: none;
+  background-color: white;
 }
 
 .arrbuttonup {
-    display: none;
+  display: none;
 }
 
 .arrbuttondown.show {
-    display: none;
+  display: none;
 }
 
 .checkdiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .custom-checkbox {
-    appearance: none;
-    -webkit-appearance: none; 
-    width: 26px; 
-    height: 26px;
-    border-radius: 6px; 
-    border: 2px solid var(--nav-bg-color); 
-    background-color: var(--main-bg-color); 
-    cursor: pointer;
-    margin: 0; 
-    padding: 0;
-    flex-shrink: 0;
-    display: grid;
-    place-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 2px solid var(--nav-bg-color);
+  background-color: var(--main-bg-color);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  display: grid;
+  place-content: center;
 }
 
 .custom-checkbox:checked {
-    background-image: linear-gradient(to right, var(--blue-bg-color), var(--green-bg-color));
-    border: none;
+  background-image: linear-gradient(
+    to right,
+    var(--blue-bg-color),
+    var(--green-bg-color)
+  );
+  border: none;
 }
 
 .custom-checkbox:checked::after {
-    content: '\f00c'; 
-    font-family: 'Font Awesome 5 Free'; 
-    font-weight: 900; 
-    color: white;
-    font-size: 16px;
+  content: '\f00c';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: white;
+  font-size: 16px;
 }
 
 .task-done {
-    text-decoration: line-through;
-    color: #a0aab5;
-    text-decoration-color: var(--blue-bg-color);
-    text-decoration-thickness: 2px;
+  text-decoration: line-through;
+  color: #a0aab5;
+  text-decoration-color: var(--blue-bg-color);
+  text-decoration-thickness: 2px;
 }
-

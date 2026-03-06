@@ -1,95 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TickOff: To-Do-List</title>
-    </head>
-    <body>
-        <nav>
-        </nav>
-        <header>
-        </header>
-        <main>
-            <dialog id="createproject">
-                <form action="" method="dialog" class="form">
-                    <h2>Create Project</h2>
-                    <div class="input">
-                        <label for="name">Project name:</label>
-                        <input type="text" name="name" id="name" required />
-                    </div>
-                    <div class="buttons">
-                        <button type="submit" class="submit">Add Project</button>
-                        <button type="button" class="cancel">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
-            <dialog id="deleteproject">
-                <form action="" method="dialog" class="form">
-                    <h2>Delete Project</h2>
-                    <div class="input">
-                        <label for="del-select">Project name:</label>
-                        <select name="del-select" id="del-select">
-                        </select>
-                    </div>
-                    <div class="buttons">
-                        <button type="submit" class="submit">Delete Project</button>
-                        <button type="button" class="cancel">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
-            <dialog id="createtodo">
-                <form action="" method="dialog" class="form">
-                    <h2>Create To-Do</h2>
-                    <div class="input">
-                        <label for="title">Title:</label>
-                        <input type="text" name="title" id="title" required />
-                    </div>
-                    <div class="input">
-                        <label for="descr">Description:</label>
-                        <input type="text" name="descr" id="descr" />
-                    </div>
-                    <div class="input">
-                        <label for="td-select">Project:</label>
-                        <select name="td-select" id="td-select">
-                        </select>
-                    </div>
-                    <div class="input">
-                        <label for="duedate">Due Date:</label>
-                        <input type="date" id="duedate" name="duedate" value="" min="2026-01-01" max="2030-01-01" />
-                    </div>
-                     <div class="input">
-                        <label for="pr-select">Priority:</label>
-                        <select name="pr-select" id="pr-select">
-                            <option value="low">low</option>
-                            <option value="normal" selected>normal</option>
-                            <option value="high">high</option>
-                        </select>
-                    </div>
-                   <div class="input">
-                        <label for="notes">Notes:</label>
-                        <input type="text" name="notes" id="notes" />
-                    </div>
-                    <div class="buttons">
-                        <button type="submit" class="submit">Add To-Do</button>
-                        <button type="button" class="cancel">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
-            <dialog id="reset">
-                <form action="" method="dialog" class="form">
-                    <h2>Reset</h2>
-                    <div class="question">Are you sure you want to reset? Everything will get lost!</div>
-                    <div class="buttons">
-                        <button type="submit" class="submit">Delete Everything</button>
-                        <button type="button" class="cancel">Cancel</button>
-                    </div>
-                </form>
-            </dialog>
-            <div class="content"></div>
-        </main>
-        <footer>
-            <div class="footer">Made by OdinM13</div>
-        </footer>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TickOff: To-Do-List</title>
+  </head>
+  <body>
+    <nav></nav>
+    <header></header>
+    <main>
+      <dialog id="createproject">
+        <form action="" method="dialog" class="form">
+          <h2>Create Project</h2>
+          <div class="input">
+            <label for="name">Project name:</label>
+            <input type="text" name="name" id="name" required />
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit">Add Project</button>
+            <button type="button" class="cancel">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+      <dialog id="deleteproject">
+        <form action="" method="dialog" class="form">
+          <h2>Delete Project</h2>
+          <div class="input">
+            <label for="del-select">Project name:</label>
+            <select name="del-select" id="del-select"></select>
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit">Delete Project</button>
+            <button type="button" class="cancel">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+      <dialog id="createtodo">
+        <form action="" method="dialog" class="form">
+          <h2>Create To-Do</h2>
+          <div class="input">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required />
+          </div>
+          <div class="input">
+            <label for="descr">Description:</label>
+            <input type="text" name="descr" id="descr" />
+          </div>
+          <div class="input">
+            <label for="td-select">Project:</label>
+            <select name="td-select" id="td-select"></select>
+          </div>
+          <div class="input">
+            <label for="duedate">Due Date:</label>
+            <input
+              type="date"
+              id="duedate"
+              name="duedate"
+              value=""
+              min="2026-01-01"
+              max="2030-01-01"
+            />
+          </div>
+          <div class="input">
+            <label for="pr-select">Priority:</label>
+            <select name="pr-select" id="pr-select">
+              <option value="low">low</option>
+              <option value="normal" selected>normal</option>
+              <option value="high">high</option>
+            </select>
+          </div>
+          <div class="input">
+            <label for="notes">Notes:</label>
+            <input type="text" name="notes" id="notes" />
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit">Add To-Do</button>
+            <button type="button" class="cancel">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+      <dialog id="reset">
+        <form action="" method="dialog" class="form">
+          <h2>Reset</h2>
+          <div class="question">
+            Are you sure you want to reset? Everything will get lost!
+          </div>
+          <div class="buttons">
+            <button type="submit" class="submit">Delete Everything</button>
+            <button type="button" class="cancel">Cancel</button>
+          </div>
+        </form>
+      </dialog>
+      <div class="content"></div>
+    </main>
+    <footer>
+      <div class="footer">Made by OdinM13</div>
+    </footer>
+  </body>
 </html>

@@ -4,7 +4,9 @@
 
 @layer reset {
   /* 1. Standard Josh: More intuitive box model */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
 
@@ -14,7 +16,8 @@
   }
 
   /* 3. Standard Josh: Allow percentage-based heights in the dashboard */
-  html, body {
+  html,
+  body {
     height: 100%;
   }
 
@@ -26,28 +29,44 @@
   }
 
   /* 5. Standard Josh: Media defaults */
-  img, picture, video, canvas, svg {
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
     display: block;
     max-width: 100%;
   }
 
   /* 6. Standard Josh: Form elements inheritance */
-  input, button, textarea, select {
+  input,
+  button,
+  textarea,
+  select {
     font: inherit;
   }
 
   /* 7. Standard Josh: Avoid text overflow */
-  p, h1, h2, h3, h4, h5, h6 {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     overflow-wrap: break-word;
   }
 
   /* 8. 2026 Upgrade: Balance headlines automatically */
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     text-wrap: balance;
   }
 
   /* 9. Standard Josh: Create a root stacking context (Crucial for React/Next.js) */
-  #root, #__next {
+  #root,
+  #__next {
     isolation: isolate;
   }
 
@@ -56,4 +75,3 @@
     interpolate-size: allow-keywords;
   }
 }
-

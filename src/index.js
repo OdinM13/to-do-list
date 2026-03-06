@@ -1,206 +1,235 @@
 // put parts of the Storage functions in utils file
 // add search function with .filter
 
-import { format } from "date-fns";
-import { storageAvailable } from "./utils.js";
-import "./view.js";
-import { renderProjectsSidebar, renderTodoList, renderHeader } from "./view.js";
+// import { format } from "date-fns";
+import { storageAvailable } from './utils.js';
+import './view.js';
+import { renderProjectsSidebar, renderTodoList, renderHeader } from './view.js';
 
-const SAVING_TO = "localStorage";
+const SAVING_TO = 'localStorage';
 
 class Controller {
-    constructor () {
-        this.projects = this.loadStorage("Project");
-    }
+  constructor() {
+    this.projects = this.loadStorage('Project');
+  }
 
-    createProject (name) {
-        const project = new Project (name);
-        this.projects.push(project);
-        this.updateStorage("Project", this.projects);
-        renderProjectsSidebar(appController, handleProjectChange);
-        return project;
-    }
+  createProject(name) {
+    const project = new Project(name);
+    this.projects.push(project);
+    this.updateStorage('Project', this.projects);
+    renderProjectsSidebar(appController, handleProjectChange);
+    return project;
+  }
 
-    deleteProject (name) {
-        const index = this.projects.findIndex(e => e.name === name);
-        if (index > -1) {
-            this.projects.splice(index, 1);
-            this.updateStorage("Project", this.projects);
-        }
+  deleteProject(name) {
+    const index = this.projects.findIndex((e) => e.name === name);
+    if (index > -1) {
+      this.projects.splice(index, 1);
+      this.updateStorage('Project', this.projects);
     }
+  }
 
-    createTodo (obj) {
-        const todo = new Todo (obj);
-        const index = this.projects.findIndex(e => e.name === obj.project);
-        if (index > -1) {
-            this.projects[index].addTodo(todo);
-            this.updateStorage("Project", this.projects);
-        }
+  createTodo(obj) {
+    const todo = new Todo(obj);
+    const index = this.projects.findIndex((e) => e.name === obj.project);
+    if (index > -1) {
+      this.projects[index].addTodo(todo);
+      this.updateStorage('Project', this.projects);
     }
+  }
 
-    deleteTodo (project, name) {
-        const index = this.projects.findIndex(e => e.name === project);
-        if (index > -1) {
-            this.projects[index].deleteTodo(name);
-            this.updateStorage("Project", this.projects);
-        }
+  deleteTodo(project, name) {
+    const index = this.projects.findIndex((e) => e.name === project);
+    if (index > -1) {
+      this.projects[index].deleteTodo(name);
+      this.updateStorage('Project', this.projects);
     }
+  }
 
-    removeTodo (project, name, newproject) {
-        const targetProject = newproject || "Home";
-        const index = this.projects.findIndex(e => e.name === project);
-        if (index > -1) {
-            const todo = this.projects[index].removeTodo(name);
-            todo.changeProperty("project", targetProject);
-            
-            const indexNewProject = this.projects.findIndex(e => e.name === targetProject);
-            if (indexNewProject > -1) {
-                this.projects[indexNewProject].addTodo(todo);
-            } else {
-                const newProject = this.createProject(targetProject);
-                newProject.addTodo(todo);
-            } 
-            this.updateStorage("Project", this.projects);
-        }
-    }
+  removeTodo(project, name, newproject) {
+    const targetProject = newproject || 'Home';
+    const index = this.projects.findIndex((e) => e.name === project);
+    if (index > -1) {
+      const todo = this.projects[index].removeTodo(name);
+      todo.changeProperty('project', targetProject);
 
-    changeProperty (projectname, todotitle, valuename, newvalue) {
-        const index = this.projects.findIndex(e => e.name === projectname);
-        if (index > -1) {
-            const todoindex = this.projects[index].todos.findIndex(e => e.title === todotitle);
-            if (todoindex > -1) {
-                this.projects[index].todos[todoindex].changeProperty(valuename, newvalue);
-                this.updateStorage("Project", this.projects);
-            }
-        }
+      const indexNewProject = this.projects.findIndex(
+        (e) => e.name === targetProject
+      );
+      if (indexNewProject > -1) {
+        this.projects[indexNewProject].addTodo(todo);
+      } else {
+        const newProject = this.createProject(targetProject);
+        newProject.addTodo(todo);
+      }
+      this.updateStorage('Project', this.projects);
     }
+  }
 
-    updateStorage (name, data) {
-        if (storageAvailable(SAVING_TO)) {
-            localStorage.setItem(name, JSON.stringify(data));
-        } else {
-            alert("Saving Data is not possible");
-        }
+  changeProperty(projectname, todotitle, valuename, newvalue) {
+    const index = this.projects.findIndex((e) => e.name === projectname);
+    if (index > -1) {
+      const todoindex = this.projects[index].todos.findIndex(
+        (e) => e.title === todotitle
+      );
+      if (todoindex > -1) {
+        this.projects[index].todos[todoindex].changeProperty(
+          valuename,
+          newvalue
+        );
+        this.updateStorage('Project', this.projects);
+      }
     }
+  }
 
-    loadStorage(name) {
-        let project = [];
-        if (!localStorage.getItem(name)) {
-            return project; 
-        } else {
-            const parsedData = JSON.parse(localStorage.getItem(name)); 
-            return parsedData.map(element => {
-                const restoredProject = new Project(element.name);
-                element.todos.forEach(e => restoredProject.addTodo(new Todo(e)));
-                return restoredProject;
-            });
-        }
+  updateStorage(name, data) {
+    if (storageAvailable(SAVING_TO)) {
+      localStorage.setItem(name, JSON.stringify(data));
+    } else {
+      alert('Saving Data is not possible');
     }
+  }
 
-    deleteStorage() {
-        localStorage.clear();
-        this.projects = [];
-        //Home Project should always be present
-        this.createProject("Home");
-        renderProjectsSidebar(appController, handleProjectChange);
+  loadStorage(name) {
+    let project = [];
+    if (!localStorage.getItem(name)) {
+      return project;
+    } else {
+      const parsedData = JSON.parse(localStorage.getItem(name));
+      return parsedData.map((element) => {
+        const restoredProject = new Project(element.name);
+        element.todos.forEach((e) => restoredProject.addTodo(new Todo(e)));
+        return restoredProject;
+      });
     }
+  }
+
+  deleteStorage() {
+    localStorage.clear();
+    this.projects = [];
+    //Home Project should always be present
+    this.createProject('Home');
+    renderProjectsSidebar(appController, handleProjectChange);
+  }
 }
 
 class Project {
-    constructor (name) {
-        this.name = name;
-        this.todos = [];
-    }
+  constructor(name) {
+    this.name = name;
+    this.todos = [];
+  }
 
-    changeName (name) {
-        this.name = name;
-    }
+  changeName(name) {
+    this.name = name;
+  }
 
-    addTodo (todo) {
-        this.todos.push(todo);
-    }
+  addTodo(todo) {
+    this.todos.push(todo);
+  }
 
-    deleteTodo (title) {
-        const index = this.todos.findIndex(e => e.title === title);
-        if (index > -1) {
-            this.todos.splice(index, 1);
-        }
+  deleteTodo(title) {
+    const index = this.todos.findIndex((e) => e.title === title);
+    if (index > -1) {
+      this.todos.splice(index, 1);
     }
+  }
 
-    removeTodo (title) {
-        const index = this.todos.findIndex(e => e.title === title);
-        if (index > -1) {
-            return this.todos.splice(index, 1)[0];
-        }
+  removeTodo(title) {
+    const index = this.todos.findIndex((e) => e.title === title);
+    if (index > -1) {
+      return this.todos.splice(index, 1)[0];
     }
+  }
 }
 
 class Todo {
-    constructor (tdData) {
-        this.title = tdData.title;
-        this.description = tdData.description || "";
-        this.project = tdData.project || "Home";
-        this.dueDate = tdData.dueDate || "";
-        this.priority = tdData.priority || "normal";
-        this.notes = tdData.notes || "";
-        this.complete = tdData.complete || false;
-    }
+  constructor(tdData) {
+    this.title = tdData.title;
+    this.description = tdData.description || '';
+    this.project = tdData.project || 'Home';
+    this.dueDate = tdData.dueDate || '';
+    this.priority = tdData.priority || 'normal';
+    this.notes = tdData.notes || '';
+    this.complete = tdData.complete || false;
+  }
 
-    changeProperty (property, value) {
-        this[property] = value;
-    }
+  changeProperty(property, value) {
+    this[property] = value;
+  }
 }
 
 const appController = new Controller();
 
 if (appController.projects.length === 0) {
-    appController.createProject("Home");
+  appController.createProject('Home');
 }
 renderProjectsSidebar(appController, handleProjectChange);
 renderHeader(appController.projects);
-const homeProject = appController.projects.find(proj => proj.name === "Home");
+const homeProject = appController.projects.find((proj) => proj.name === 'Home');
 renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
 
 function handleProjectChange(todoTitle, oldProjectName, newProjectName) {
-    appController.removeTodo(oldProjectName, todoTitle, newProjectName);
-    
-    const currentProject = appController.projects.find(proj => proj.name === oldProjectName);
-    
-    renderTodoList(currentProject.todos, appController.projects, handleProjectChange);
+  appController.removeTodo(oldProjectName, todoTitle, newProjectName);
+
+  const currentProject = appController.projects.find(
+    (proj) => proj.name === oldProjectName
+  );
+
+  renderTodoList(
+    currentProject.todos,
+    appController.projects,
+    handleProjectChange
+  );
 }
 
-document.addEventListener("priorityChange", (event) => {
-    appController.changeProperty(event.detail.projectname, event.detail.todotitle, event.detail.valuename, event.detail.newvalue);
+document.addEventListener('priorityChange', (event) => {
+  appController.changeProperty(
+    event.detail.projectname,
+    event.detail.todotitle,
+    event.detail.valuename,
+    event.detail.newvalue
+  );
 });
 
-document.addEventListener("submitproject", (event) => {
-    appController.createProject(event.detail.projectname);
-    renderHeader(appController.projects);
-    renderProjectsSidebar(appController, handleProjectChange);
-})
+document.addEventListener('submitproject', (event) => {
+  appController.createProject(event.detail.projectname);
+  renderHeader(appController.projects);
+  renderProjectsSidebar(appController, handleProjectChange);
+});
 
-document.addEventListener("deleteproject", (event) => {
-    appController.deleteProject(event.detail.projectname);
-    renderHeader(appController.projects);
-    renderProjectsSidebar(appController, handleProjectChange);
-})
+document.addEventListener('deleteproject', (event) => {
+  appController.deleteProject(event.detail.projectname);
+  renderHeader(appController.projects);
+  renderProjectsSidebar(appController, handleProjectChange);
+});
 
-document.addEventListener("createtodo", (event) => {
-    appController.createTodo(event.detail);
-})
+document.addEventListener('createtodo', (event) => {
+  appController.createTodo(event.detail);
+});
 
-document.addEventListener("deletetodo", (event) => {
-    appController.deleteTodo(event.detail.projectname, event.detail.todotitle);
-    const findProject = appController.projects.find(proj => proj.name === event.detail.projectname);
-    renderTodoList(findProject.todos, appController.projects, handleProjectChange);
-})
+document.addEventListener('deletetodo', (event) => {
+  appController.deleteTodo(event.detail.projectname, event.detail.todotitle);
+  const findProject = appController.projects.find(
+    (proj) => proj.name === event.detail.projectname
+  );
+  renderTodoList(
+    findProject.todos,
+    appController.projects,
+    handleProjectChange
+  );
+});
 
-document.addEventListener("resetall", () => {
-    appController.deleteStorage();
-})
+document.addEventListener('resetall', () => {
+  appController.deleteStorage();
+});
 
-document.addEventListener("changechecked", (event) => {
-    appController.changeProperty(event.detail.projectname, event.detail.todotitle, "complete", event.detail.iscomplete);
-})
+document.addEventListener('changechecked', (event) => {
+  appController.changeProperty(
+    event.detail.projectname,
+    event.detail.todotitle,
+    'complete',
+    event.detail.iscomplete
+  );
+});
 
 window.appController = appController;
