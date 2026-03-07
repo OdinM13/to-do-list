@@ -32,8 +32,17 @@ header {
   grid-area: header;
   background-color: #ffffff;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 20px 50px;
+}
+
+h1 {
+  font-size: 5rem;
+  background-image: linear-gradient(45deg, var(--blue-bg-color), var(--green-bg-color));
+  background-clip: text;
+  color: transparent;
 }
 
 main {
@@ -300,7 +309,8 @@ form {
   font-size: 16px;
 }
 
-.task-done {
+.task-done .optdiv,
+.task-done .maindiv {
   text-decoration: line-through;
   color: #a0aab5;
   text-decoration-color: var(--blue-bg-color);

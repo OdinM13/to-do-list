@@ -1,5 +1,6 @@
 // put parts of the Storage functions in utils file
 // add search function with .filter
+// add "backlog" for completed todos
 
 // import { format } from "date-fns";
 import { storageAvailable } from './utils.js';
@@ -164,9 +165,9 @@ if (appController.projects.length === 0) {
   appController.createProject('Home');
 }
 renderProjectsSidebar(appController, handleProjectChange);
-renderHeader(appController.projects);
 const homeProject = appController.projects.find((proj) => proj.name === 'Home');
 renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
+renderHeader(homeProject, appController.projects);
 
 function handleProjectChange(todoTitle, oldProjectName, newProjectName) {
   appController.removeTodo(oldProjectName, todoTitle, newProjectName);

@@ -1,5 +1,5 @@
 // Change todo card design
-// Fix Strikthrough design
+// Add import validation
 import './css/reset.css';
 import './css/styles.css';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -41,6 +41,7 @@ function renderProjects(element, allProjects, onProjectChange) {
 
   newButton.addEventListener('click', () => {
     renderTodoList(element.todos, allProjects, onProjectChange);
+    renderHeader(element, allProjects);
   });
 }
 
@@ -205,7 +206,7 @@ function renderTodo(element, allProjects, onProjectChange) {
 }
 
 //renderHeader
-function renderHeader(allProjects) {
+function renderHeader(project, allProjects) {
   const header = document.querySelector('header');
   const delSelect = document.querySelector('#del-select');
   const tdSelect = document.querySelector('#td-select');
@@ -215,6 +216,14 @@ function renderHeader(allProjects) {
   const dialogReset = document.querySelector('#reset');
 
   header.innerHTML = '';
+
+  const titleDiv = document.createElement('div');
+  titleDiv.classList.add('title');
+  const titleName = document.createElement('h1');
+  titleName.classList.add('titlename');
+  titleName.textContent = project.name;
+  titleDiv.appendChild(titleName);
+  header.appendChild(titleDiv);
 
   const newDiv = document.createElement('div');
   newDiv.classList.add('actions');
