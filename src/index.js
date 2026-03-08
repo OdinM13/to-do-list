@@ -111,6 +111,10 @@ class Controller {
     //Home Project should always be present
     this.createProject('Home');
     renderProjectsSidebar(appController, handleProjectChange);
+    const homeProject = appController.projects.find(
+      (proj) => proj.name === 'Home'
+    );
+    renderTodoList(homeProject.todos, this.projects, handleProjectChange);
   }
 }
 
@@ -194,18 +198,24 @@ document.addEventListener('priorityChange', (event) => {
 
 document.addEventListener('submitproject', (event) => {
   appController.createProject(event.detail.projectname);
-  renderHeader(appController.projects);
+  renderHeader(homeProject, appController.projects);
   renderProjectsSidebar(appController, handleProjectChange);
 });
 
 document.addEventListener('deleteproject', (event) => {
   appController.deleteProject(event.detail.projectname);
-  renderHeader(appController.projects);
+  renderHeader(homeProject, appController.projects);
   renderProjectsSidebar(appController, handleProjectChange);
+  renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
 });
 
 document.addEventListener('createtodo', (event) => {
   appController.createTodo(event.detail);
+  const currentProject = appController.projects.find(
+    (proj) => proj.name === event.detail.project
+  );
+  renderHeader(currentProject, appController.projects);
+  renderTodoList(currentProject.todos, appController.projects, handleProjectChange);
 });
 
 document.addEventListener('deletetodo', (event) => {
@@ -222,6 +232,7 @@ document.addEventListener('deletetodo', (event) => {
 
 document.addEventListener('resetall', () => {
   appController.deleteStorage();
+  renderTodoList(homeProject.todos, appController.projects, handleProjectChange);
 });
 
 document.addEventListener('changechecked', (event) => {
@@ -231,6 +242,22 @@ document.addEventListener('changechecked', (event) => {
     'complete',
     event.detail.iscomplete
   );
+});
+
+document.addEventListener('changetitle', (event) => {
+  console.log(event.detail.projectname);
+  console.log(event.detail.todotitle);
+  console.log(event.detail.newvalue);
+  appController.changeProperty(
+    event.detail.projectname,
+    event.detail.todotitle,
+    'title',
+    event.detail.newvalue
+  );
+  const findProject = appController.projects.find(
+    (proj) => proj.name === event.detail.projectname
+  );
+  renderTodoList(findProject.todos, appController.projects, handleProjectChange);
 });
 
 window.appController = appController;

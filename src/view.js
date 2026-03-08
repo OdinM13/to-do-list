@@ -86,7 +86,7 @@ function renderTodo(element, allProjects, onProjectChange) {
   newProject.name = 'project';
   const newProjectLabel = document.createElement('label');
   newProjectLabel.htmlFor = newProject.id;
-  newProjectLabel.appendChild(document.createTextNode('Project: '));
+  newProjectLabel.appendChild(document.createTextNode('Project:  '));
   allProjects.forEach((proj) => {
     const option = document.createElement('option');
     option.value = proj.name;
@@ -136,7 +136,7 @@ function renderTodo(element, allProjects, onProjectChange) {
   newPriority.name = 'priority';
   const newPriorityLabel = document.createElement('label');
   newPriorityLabel.htmlFor = newPriority.id;
-  newPriorityLabel.appendChild(document.createTextNode('Priority: '));
+  newPriorityLabel.appendChild(document.createTextNode('Priority:  '));
   const priorities = ['low', 'normal', 'high'];
   priorities.forEach((prio) => {
     const option = document.createElement('option');
@@ -264,6 +264,7 @@ function renderHeader(project, allProjects) {
   createTodo.textContent = 'Create To-Do';
   createTodo.addEventListener('click', () => {
     document.querySelector('#createtodo .form').reset();
+    tdSelect.innerHTML = '';
     const today = format(new Date(), 'yyyy-MM-dd');
     const dateInput = document.getElementById('duedate');
     dateInput.value = today;
@@ -376,6 +377,32 @@ document.addEventListener('click', (event) => {
       },
     });
     document.dispatchEvent(deleteTodo);
+  }
+
+  const titleText = event.target.closest('.title');
+  if (titleText) {
+    const currentTodoCard = event.target.closest('.todo');
+    const projectVal = currentTodoCard.querySelector('#project').value;
+    const currentText = titleText.textContent;
+    console.log(currentText);
+    titleText.style.display = "none";
+    const newInput = document.createElement('input');
+    const mainDiv = currentTodoCard.querySelector('.maindiv');
+    mainDiv.insertBefore(newInput, titleText);
+    newInput.focus();
+    newInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        console.log(newInput.value);
+        const changeTitle = new CustomEvent('changetitle', {
+          detail: {
+            projectname: projectVal,
+            todotitle: currentText,
+            newvalue: newInput.value
+          }
+        })
+        document.dispatchEvent(changeTitle);
+      }
+    })
   }
 });
 
