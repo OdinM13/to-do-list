@@ -110,10 +110,10 @@ class Controller {
     this.projects = [];
     //Home Project should always be present
     this.createProject('Home');
-    renderProjectsSidebar(appController, handleProjectChange);
     const homeProject = appController.projects.find(
       (proj) => proj.name === 'Home'
     );
+    renderHeader(homeProject, this.projects);
     renderTodoList(homeProject.todos, this.projects, handleProjectChange);
   }
 }
@@ -245,9 +245,6 @@ document.addEventListener('changechecked', (event) => {
 });
 
 document.addEventListener('changetitle', (event) => {
-  console.log(event.detail.projectname);
-  console.log(event.detail.todotitle);
-  console.log(event.detail.newvalue);
   appController.changeProperty(
     event.detail.projectname,
     event.detail.todotitle,
