@@ -107,16 +107,6 @@ function renderTodo(element, allProjects, onProjectChange) {
     }
   });
 
-  const newDate = document.createElement('div');
-  newDate.classList.add('date');
-  const newDateText = document.createElement('div');
-  newDateText.classList.add('date-text');
-  newDateText.textContent = 'Due Date: ';
-  const newDateDate = document.createElement('div');
-  newDateDate.classList.add('date-date');
-  newDateDate.textContent = element.dueDate;
-  newDate.appendChild(newDateText);
-  newDate.appendChild(newDateDate);
 
   const delButton = document.createElement('button');
   delButton.classList.add('delbutton');
@@ -173,8 +163,19 @@ function renderTodo(element, allProjects, onProjectChange) {
     }
   });
 
+  const newDate = document.createElement('div');
+  newDate.classList.add('date');
+  const newDateText = document.createElement('div');
+  newDateText.classList.add('date-text');
+  newDateText.textContent = 'Due Date: ';
+  const newDateDate = document.createElement('div');
+  newDateDate.classList.add('date-date');
+  newDateDate.textContent = element.dueDate;
+  newDate.appendChild(newDateText);
+  newDate.appendChild(newDateDate);
+
   const newNote = document.createElement('div');
-  newNote.classList.add('note');
+  newNote.classList.add('notes');
   newNote.appendChild(document.createTextNode('Notes: ' + element.notes));
 
   const newComplete = document.createElement('input');
@@ -191,8 +192,8 @@ function renderTodo(element, allProjects, onProjectChange) {
   currentDiv.insertAdjacentElement('beforeend', newDiv);
 
   mainDiv.insertAdjacentElement('beforeend', newTitle);
-  mainDiv.insertAdjacentElement('beforeend', newDate);
   mainDiv.insertAdjacentElement('beforeend', newPriorityDiv);
+  mainDiv.insertAdjacentElement('beforeend', newDate);
 
   optDiv.insertAdjacentElement('beforeend', newDescription);
   optDiv.insertAdjacentElement('beforeend', newProjectDiv);
@@ -389,27 +390,24 @@ document.addEventListener('click', (event) => {
 
   const titleText = event.target.closest('.title');
   if (titleText) {
-    const currentTodoCard = event.target.closest('.todo');
-    const projectVal = currentTodoCard.querySelector('#project').value;
-    const currentText = titleText.textContent;
-    titleText.style.display = "none";
-    const newInput = document.createElement('input');
-    const mainDiv = currentTodoCard.querySelector('.maindiv');
-    mainDiv.insertBefore(newInput, titleText);
-    newInput.focus();
-    newInput.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        const changeTitle = new CustomEvent('changetitle', {
-          detail: {
-            projectname: projectVal,
-            todotitle: currentText,
-            newvalue: newInput.value
-          }
-        })
-        document.dispatchEvent(changeTitle);
-      }
-    })
+    changeFields(titleText, 'title');
   }
+
+  const descriptionText = event.target.closest('.description');
+  if (descriptionText) {
+    changeFields(descriptionText, 'description');
+  }
+
+  const notesText = event.target.closest('.notes');
+  if (notesText) {
+    changeFields(notesText, 'notes');
+  }
+
+  const dueDate = event.target.closest('.date-date');
+  if (dueDate) {
+    changeFields(dueDate, 'dueDate');
+  }
+
 });
 
 document.addEventListener('change', (event) => {
@@ -431,27 +429,44 @@ document.addEventListener('change', (event) => {
   }
 });
 
-function changeFields (attribute) {
-  const titleText = event.target.closest('.title');
-  if (titleText) {
-    const currentTodoCard = event.target.closest('.todo');
-    const projectVal = currentTodoCard.querySelector('#project').value;
-    const currentText = titleText.textContent;
-    titleText.style.display = "none";
-    const newInput = document.createElement('input');
-    const mainDiv = currentTodoCard.querySelector('.maindiv');
-    mainDiv.insertBefore(newInput, titleText);
-    newInput.focus();
+function changeFields (htmlElement, textString) {
+  const currentTodoCard = htmlElement.closest('.todo');
+  const projectVal = currentTodoCard.querySelector('#project').value;
+  const currentTitle = currentTodoCard.querySelector('.title').textContent;
+  htmlElement.style.display = "none";
+  const newInput = document.createElement('input');
+  if (textString === "dueDate") {
+    newInput.setAttribute('type', 'date');
+  } 
+  newInput.value = htmlElement.textContent;
+  const parentNode = htmlElement.parentNode;
+  parentNode.insertBefore(newInput, htmlElement);
+  newInput.focus();
+
+  if (textString === 'dueDate') {
+    newInput.addEventListener('change', () => {
+      const changeFields = new CustomEvent('changefields', {
+        detail: {
+          projectname: projectVal,
+          todotitle: currentTitle,
+          fieldname: textString,
+          newvalue: newInput.value
+        }
+      })
+      document.dispatchEvent(changeFields);
+    })
+  } else {
     newInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
-        const changeTitle = new CustomEvent('changetitle', {
+        const changeFields = new CustomEvent('changefields', {
           detail: {
             projectname: projectVal,
-            todotitle: currentText,
+            todotitle: currentTitle,
+            fieldname: textString,
             newvalue: newInput.value
           }
         })
-        document.dispatchEvent(changeTitle);
+        document.dispatchEvent(changeFields);
       }
     })
   }

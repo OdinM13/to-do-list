@@ -244,11 +244,11 @@ document.addEventListener('changechecked', (event) => {
   );
 });
 
-document.addEventListener('changetitle', (event) => {
+document.addEventListener('changefields', (event) => {
   appController.changeProperty(
     event.detail.projectname,
     event.detail.todotitle,
-    'title',
+    event.detail.fieldname,
     event.detail.newvalue
   );
   const findProject = appController.projects.find(
